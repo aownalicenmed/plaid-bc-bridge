@@ -70,16 +70,10 @@
         }
 
         function redirectToBC(publicToken, accountsJson) {
-            // Encode the accounts JSON safely for URL
-            var encodedAccounts = encodeURIComponent(accountsJson);
-
-            // Plaid public tokens can be long — we put them as code= and accounts as state=
-            // OAuthControlAddIn reads these back via AuthorizationCodeRetrieved
+            // Send only the public_token as code= — clean, no separators.
+            // Account metadata will be fetched server-side after token exchange.
             var returnUrl = getReturnUrl();
-            var finalUrl = returnUrl
-                + '?code=' + encodeURIComponent(publicToken)
-                + '&state=' + encodedAccounts;
-
+            var finalUrl = returnUrl + '?code=' + encodeURIComponent(publicToken);
             window.location.href = finalUrl;
         }
 
